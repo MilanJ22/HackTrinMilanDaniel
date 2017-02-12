@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Escape From ADX Florence</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJmnkV53AQ9zOp4b5GAcglLqQuUNa2-V4&libraries=places&callback=initMap"
+        async defer></script>
+    <style>
+      html, body {
+      height: 100%;
+   
+}
+    #paragraph1 {
+       border-radius: 25px;
+        color: cornflowerblue;  
+        
+    }
+    #button { 
+       background-color:#44c767;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627; 
+        
+    }
+#map-canvas {
+  min-width: 200px;
+  width: 50%;
+  min-height: 200px;
+  height: 80%;
+  border: 1px solid blue;
+}
+        #data { 
+        border-radius: 25px;
+    background: #73AD21;
+
+     position: absolute;
+    top: 55px;
+    right: 25px;
+    width: 400px;
+    height: 400px;
+        }
+
+      #map {
+          top:65px;
+        height: 400px;
+          width: 65%;
+      }
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+#heading { 
+   font-weight:bold;
+    text-shadow; 
+    
+    
+}
+      #origin-input,
+      #destination-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 200px;
+      }
+
+      #origin-input:focus,
+      #destination-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #mode-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        margin-left: 12px;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #mode-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+        body {
+background-image:url("http://wallfon.com/walls/mountains/sunset-over-the-mountains.jpg")
+        }
+    </style>
+      
+  </head>
+  <body>
+      <div id ="top"> 
+      <h3 id ="heading" >Welcome to the Adventure of Lifetime</h3>
+      </div>
+      
+      <div id = "map"> 
+          
+      
+      
+      
+      </div>
+      
+      
+      <div class="1st" id = "data"> 
+         <p>Hello, you have sentenced to Rikers Island Supermax Prison for life. Your only hope is to escape. This program is designed to help you out. Please select ONE option and learn about where the nearest locations are... </p>
+          
+
+<input type="checkbox" id = "restaurants" >Restaurants<br>
+  <input type="checkbox" id = "Banks">Banks<br>
+  <input type="checkbox" id = "Churches" >Churches<br>
+ 
+  <input type="submit" id = "button">
+      </div>
+          <div class = "2nd" id = "data" >
+              <p> You have chosen to go to the nearest restaurant. Unfortunately, you have been spotted by a customer!! You must fight and flee the scene"</p> 
+            <button> Punch</button>
+            <button>Run</button>
+              <p> You have been caught by the police, game over.</p>
+              
+              
+              
+</div>
+      <div class = "3rd" id = "data"> 
+      <p>You went into the bank, but you felt your old calling and couldn't resist robbing it. The police have been on high alert after they heard that you escaped from Riker's Island, and you are caught immediately. Game Over!</p>
+      </div>
+      <div class = "4th" id = "data"> 
+      <p>You find salvation and safety in the church, and you are able to put your past behind you. You become highly religious, and even though you live a risky new life, you are a new man.</p>
+      </div>
+      
+      
+      
+      
+      
+      
+      <div id ="read"> </div>
+      <div id="map">
+    <script>
+        
+       
+$('.2nd').hide()
+$('.3rd').hide()
+$('.4th').hide()
+      var map;
+      var infowindow;
+    var poi = [];
+      function initMap() {
+        var pyrmont = {lat: 40.7920528, lng:-73.8905395};
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: pyrmont,
+          zoom: 13
+        });
+
+        infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+          location: pyrmont,
+          radius: 5000,
+          type: poi
+        }, callback);
+      }
+
+      function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+          }
+        }
+      }
+
+      function createMarker(place) {
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(place.name);
+          infowindow.open(map, this);
+        });
+      }
+//End of map code
+
+  function readData() {
+      r = document.getElementById("restaurants").checked;
+      gs = document.getElementById("Banks").checked;
+      m = document.getElementById("Churches").checked;
+      if (r == true) {
+          poi.push('restaurant')
+          initMap();
+          var options = new Array("Rob", "Pay", "Leave");
+          $('.1st').hide()
+          $('.2nd').show();
+     //     document.getElementById("data").innerHTML="Okay, you have chosen to go to a restaurant first. Interesting decision. I hope you have money to pay..." + "<br />" + "<br />" + "<br />" + options;
+         }
+      if (gs == true) { 
+       poi.push('bank')
+          initMap();
+          $('.1st').hide()
+          $('.3rd').show();   
+          
+      }
+      if (m == true) { 
+       poi.push('church')
+          initMap();
+          
+          $('.1st').hide()
+          $('.4th').show();   
+          
+      }
+
+      
+      
+      
+      
+      
+      
+      
+  }
+    $('#button').click(function(){
+    readData()
+    console.log('Clicked')
+    })
+        
+    </script>
+      </div> 
+
+      
+      
+  </body>
+</html>
